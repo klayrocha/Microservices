@@ -1,0 +1,17 @@
+server:
+  port: 8761
+  servlet:
+    context-path: /registry
+    
+spring:
+  application:
+    name: registry
+    
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:${server.port}/eureka/    
+
+        

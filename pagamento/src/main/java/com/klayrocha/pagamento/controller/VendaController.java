@@ -4,6 +4,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,8 @@ import com.klayrocha.pagamento.services.VendaService;
 @RequestMapping("/venda")
 public class VendaController {
 
+	@Value("${server.port}")
+	String port;
 	
 	private final VendaService vendaService;
 	private final PagedResourcesAssembler<VendaVO> assembler;
@@ -37,6 +40,11 @@ public class VendaController {
 	public VendaController(VendaService vendaService, PagedResourcesAssembler<VendaVO> assembler) {
 		this.vendaService = vendaService;
 		this.assembler = assembler;
+	}
+	
+	@RequestMapping("/mostrarPorta")
+	public String mostrarPorta() {
+		return port;
 	}
 	
 	@GetMapping(value = "/{id}", produces = {"application/json","application/xml","application/x-yaml"})

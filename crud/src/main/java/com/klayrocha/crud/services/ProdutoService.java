@@ -10,20 +10,24 @@ import org.springframework.stereotype.Service;
 import com.klayrocha.crud.data.vo.ProdutoVO;
 import com.klayrocha.crud.entity.Produto;
 import com.klayrocha.crud.exception.ResourceNotFoundException;
+import com.klayrocha.crud.message.ProdutoSendMessage;
 import com.klayrocha.crud.repository.ProdutoRepository;
 
 @Service
 public class ProdutoService {
 
 	private final ProdutoRepository produtoRepository;
+	private final ProdutoSendMessage produtoSendMessage;
 
 	@Autowired
-	public ProdutoService(ProdutoRepository produtoRepository) {
+	public ProdutoService(ProdutoRepository produtoRepository, ProdutoSendMessage produtoSendMessage) {
 		this.produtoRepository = produtoRepository;
+		this.produtoSendMessage = produtoSendMessage;
 	}
 	
 	public ProdutoVO create(ProdutoVO produtoVO) {
 	 	ProdutoVO proVoRetorno = ProdutoVO.create(produtoRepository.save(Produto.create(produtoVO)));
+	 	produtoSendMessage.sendMessage(proVoRetorno);
 		return proVoRetorno;
 	}
 	
